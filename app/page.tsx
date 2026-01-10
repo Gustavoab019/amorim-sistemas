@@ -207,7 +207,7 @@ export default function Home() {
                     Imersão no problema real
                   </h3>
                   <p className="mb-4 text-base leading-relaxed text-slate-700 sm:text-lg">
-                    Não começo perguntando "o que você quer no sistema". Começo perguntando "como funciona hoje".
+                    Não começo perguntando &quot;o que você quer no sistema&quot;. Começo perguntando &quot;como funciona hoje&quot;.
                   </p>
                   <ul className="space-y-2 text-base text-slate-700">
                     <li className="flex items-start gap-3">
@@ -434,7 +434,7 @@ export default function Home() {
                   <strong className="font-semibold text-slate-900">O problema:</strong> Loja com 15 mil produtos. Cliente entrava, via 3-4 itens na home, não encontrava nada relevante e saía. Taxa de conversão travada em 0.8%.
                 </p>
                 <p>
-                  <strong className="font-semibold text-slate-900">O que foi feito:</strong> Sistema que analisa comportamento (o que a pessoa clica, quanto tempo olha, o que adiciona e remove do carrinho) e cruza com dados históricos de compras similares. Não mostra "produtos populares" — mostra o que faz sentido para aquele usuário, naquele momento.
+                  <strong className="font-semibold text-slate-900">O que foi feito:</strong> Sistema que analisa comportamento (o que a pessoa clica, quanto tempo olha, o que adiciona e remove do carrinho) e cruza com dados históricos de compras similares. Não mostra &quot;produtos populares&quot; — mostra o que faz sentido para aquele usuário, naquele momento.
                 </p>
                 <p>
                   <strong className="font-semibold text-slate-900">Resultado:</strong> Em 90 dias, conversão foi para 1.8%. Vendas aumentaram 127%. Tempo médio no site dobrou.
@@ -541,7 +541,7 @@ export default function Home() {
 
               <div className="space-y-4 text-base leading-relaxed text-slate-700">
                 <p>
-                  <strong className="font-semibold text-slate-900">O problema:</strong> Estoque parado de R$ 4.5M. Decisões de compra baseadas em "achismos" e média histórica que não considerava sazonalidade, tendências ou mudanças de mercado.
+                  <strong className="font-semibold text-slate-900">O problema:</strong> Estoque parado de R$ 4.5M. Decisões de compra baseadas em &quot;achismos&quot; e média histórica que não considerava sazonalidade, tendências ou mudanças de mercado.
                 </p>
                 <p>
                   <strong className="font-semibold text-slate-900">O que foi feito:</strong> Sistema que analisa histórico de vendas, identifica padrões sazonais, cruza com dados de mercado e prevê demanda com 30 dias de antecedência. Dashboard mostra exatamente o que comprar, quando e quanto.
@@ -614,7 +614,7 @@ export default function Home() {
                   </svg>
                 </div>
                 <p className="text-lg leading-relaxed text-slate-700">
-                  Você já tentou sistemas "prontos" mas eles não se encaixam no seu jeito de trabalhar, e sua equipe acaba contornando o sistema.
+                  Você já tentou sistemas &quot;prontos&quot; mas eles não se encaixam no seu jeito de trabalhar, e sua equipe acaba contornando o sistema.
                 </p>
               </div>
               <div className="absolute -right-4 -bottom-4 h-16 w-16 rounded-full bg-brand-blue/5 blur-2xl" />
