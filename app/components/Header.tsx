@@ -5,9 +5,10 @@ import Link from "next/link";
 import { useState } from "react";
 
 const NAV_ITEMS = [
+  { label: "Diagnóstico", href: "#diagnostico" },
   { label: "Como funciona", href: "#como-funciona" },
-  { label: "Projetos", href: "#casos" },
-  { label: "Para quem", href: "#para-quem" }
+  { label: "Casos reais", href: "#casos" },
+  { label: "Oferta", href: "#oferta" }
 ];
 
 
@@ -15,7 +16,7 @@ export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   return (
-    <header className="sticky top-0 z-50 w-full border-b border-slate-200/60 bg-white/95 backdrop-blur-md shadow-soft">
+    <header className="sticky top-0 z-50 w-full border-b border-brand-gold/20 bg-[#FBFAF7]/92 backdrop-blur-md shadow-soft">
       <MainBar isMenuOpen={isMenuOpen} onToggleMenu={setIsMenuOpen} />
       <MobileMenu isOpen={isMenuOpen} onClose={() => setIsMenuOpen(false)} />
     </header>
@@ -44,13 +45,21 @@ function Logo() {
   return (
     <Link href="/" className="flex items-center gap-3">
       <Image
-        src="/logo-amorim.png"
-        alt="Amorim Sistemas"
-        width={230}
-        height={64}
+        src="/complexidade-simples-logo.png"
+        alt=""
+        width={375}
+        height={139}
         priority
-        className="h-[46px] w-auto"
+        className="h-8 w-auto object-contain"
       />
+      <span className="leading-tight">
+        <span className="block text-sm font-semibold uppercase text-brand-ink sm:text-base">
+          Complexidade Simples
+        </span>
+        <span className="hidden text-xs font-medium text-brand-bronze sm:block">
+          sistemas que organizam
+        </span>
+      </span>
     </Link>
   );
 }
@@ -58,14 +67,14 @@ function Logo() {
 function DesktopNav() {
   return (
     <nav
-      className="hidden items-center gap-8 text-sm font-medium text-slate-700 lg:flex"
+      className="hidden items-center gap-8 text-sm font-medium text-brand-ink/70 lg:flex"
       aria-label="Navegacao principal"
     >
       {NAV_ITEMS.map((item) => (
         <Link
           key={item.label}
           href={item.href}
-          className="transition hover:text-slate-900"
+          className="transition hover:text-brand-ink"
         >
           {item.label}
         </Link>
@@ -78,10 +87,10 @@ function DesktopActions() {
   return (
     <div className="hidden items-center gap-3 lg:flex">
       <Link
-        href="#conversa"
-        className="rounded-lg bg-brand-blue px-6 py-2.5 text-sm font-semibold text-white shadow-soft transition-all duration-200 hover:bg-brand-blue/90 hover:shadow-medium hover:-translate-y-0.5"
+        href="#diagnostico"
+        className="rounded-lg border border-brand-gold bg-transparent px-6 py-2.5 text-sm font-semibold text-brand-ink shadow-soft transition-all duration-200 hover:bg-brand-gold hover:text-white hover:shadow-medium"
       >
-        Agendar conversa
+        Fazer diagnóstico
       </Link>
     </div>
   );
@@ -97,14 +106,14 @@ function MobileActions({
   return (
     <div className="flex items-center gap-3 lg:hidden">
       <Link
-        href="#conversa"
-        className="rounded-lg bg-brand-blue px-4 py-2 text-xs font-semibold text-white shadow-soft transition hover:bg-brand-blue/90"
+        href="#diagnostico"
+        className="rounded-lg border border-brand-gold px-4 py-2 text-xs font-semibold text-brand-ink shadow-soft transition hover:bg-brand-gold hover:text-white"
       >
-        Agendar
+        Diagnóstico
       </Link>
       <button
         type="button"
-        className="inline-flex h-9 w-9 items-center justify-center rounded-lg border border-slate-200 text-slate-700 transition hover:bg-slate-50"
+        className="inline-flex h-9 w-9 items-center justify-center rounded-lg border border-brand-gold/30 text-brand-ink transition hover:bg-brand-paper"
         aria-label={isMenuOpen ? "Fechar menu" : "Abrir menu"}
         aria-expanded={isMenuOpen}
         onClick={() => onToggleMenu(!isMenuOpen)}
@@ -125,17 +134,17 @@ function MobileMenu({
   if (!isOpen) return null;
 
   return (
-    <div className="border-t border-slate-200/60 bg-white lg:hidden">
+    <div className="border-t border-brand-gold/20 bg-[#FBFAF7] lg:hidden">
       <div className="mx-auto max-w-6xl px-6 py-6">
         <nav
-          className="flex flex-col gap-4 text-sm font-medium text-slate-700"
+          className="flex flex-col gap-4 text-sm font-medium text-brand-ink/75"
           aria-label="Navegacao principal"
         >
           {NAV_ITEMS.map((item) => (
             <Link
               key={item.label}
               href={item.href}
-              className="transition hover:text-slate-900"
+              className="transition hover:text-brand-ink"
               onClick={onClose}
             >
               {item.label}
@@ -144,11 +153,11 @@ function MobileMenu({
         </nav>
         <div className="mt-6">
           <Link
-            href="#conversa"
-            className="block rounded-lg bg-brand-blue px-4 py-3 text-center text-sm font-semibold text-white shadow-soft transition hover:bg-brand-blue/90"
+            href="#diagnostico"
+            className="block rounded-lg border border-brand-gold px-4 py-3 text-center text-sm font-semibold text-brand-ink shadow-soft transition hover:bg-brand-gold hover:text-white"
             onClick={onClose}
           >
-            Agendar conversa
+            Fazer diagnóstico
           </Link>
         </div>
       </div>

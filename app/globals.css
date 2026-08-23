@@ -4,4 +4,11 @@
 
 :root {
   color-scheme: light;
+  background: #f7f3ec;
+}
+
+body {
+  background:
+    radial-gradient(circle at top left, rgba(184, 148, 93, 0.12), transparent 32rem),
+    linear-gradient(180deg, #fbfaf7 0%, #f7f3ec 44%, #ffffff 100%);
 }

@@ -7,26 +7,31 @@ module.exports = {
     extend: {
       colors: {
         brand: {
-          blue: "#2DA8FF",
-          dark: "#0E1621",
+          blue: "#B8945D",
+          gold: "#B8945D",
+          bronze: "#8E6E3E",
+          ink: "#18212A",
+          ivory: "#F7F3EC",
+          paper: "#EFE8DE",
+          sage: "#7A836F",
           gray: "#8A8F98"
         }
       },
       fontFamily: {
-        sans: ['var(--font-inter)', 'system-ui', 'sans-serif'],
+        sans: ['Avenir Next', 'Inter', 'system-ui', 'sans-serif'],
       },
       fontSize: {
-        'xs': ['0.75rem', { lineHeight: '1rem', letterSpacing: '0.02em' }],
-        'sm': ['0.875rem', { lineHeight: '1.5rem', letterSpacing: '0.01em' }],
+        'xs': ['0.75rem', { lineHeight: '1rem', letterSpacing: '0' }],
+        'sm': ['0.875rem', { lineHeight: '1.5rem', letterSpacing: '0' }],
         'base': ['1rem', { lineHeight: '1.75rem', letterSpacing: '0' }],
-        'lg': ['1.125rem', { lineHeight: '1.875rem', letterSpacing: '-0.01em' }],
-        'xl': ['1.25rem', { lineHeight: '2rem', letterSpacing: '-0.01em' }],
-        '2xl': ['1.5rem', { lineHeight: '2.25rem', letterSpacing: '-0.02em' }],
-        '3xl': ['1.875rem', { lineHeight: '2.5rem', letterSpacing: '-0.02em' }],
-        '4xl': ['2.25rem', { lineHeight: '2.75rem', letterSpacing: '-0.02em' }],
-        '5xl': ['3rem', { lineHeight: '3.5rem', letterSpacing: '-0.02em' }],
-        '6xl': ['3.75rem', { lineHeight: '4.25rem', letterSpacing: '-0.02em' }],
-        '7xl': ['4.5rem', { lineHeight: '5rem', letterSpacing: '-0.03em' }],
+        'lg': ['1.125rem', { lineHeight: '1.875rem', letterSpacing: '0' }],
+        'xl': ['1.25rem', { lineHeight: '2rem', letterSpacing: '0' }],
+        '2xl': ['1.5rem', { lineHeight: '2.25rem', letterSpacing: '0' }],
+        '3xl': ['1.875rem', { lineHeight: '2.5rem', letterSpacing: '0' }],
+        '4xl': ['2.25rem', { lineHeight: '2.75rem', letterSpacing: '0' }],
+        '5xl': ['3rem', { lineHeight: '3.5rem', letterSpacing: '0' }],
+        '6xl': ['3.75rem', { lineHeight: '4.25rem', letterSpacing: '0' }],
+        '7xl': ['4.5rem', { lineHeight: '5rem', letterSpacing: '0' }],
       },
       animation: {
         'fade-in': 'fadeIn 0.6s ease-out',

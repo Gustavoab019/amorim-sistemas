@@ -2,23 +2,23 @@ import Link from "next/link";
 
 export default function PolicyPage() {
   return (
-    <main className="bg-slate-50 px-6 pb-20 pt-28 text-slate-700 sm:pt-32">
+    <main className="bg-brand-ivory px-6 pb-20 pt-28 text-brand-ink/75 sm:pt-32">
       <div className="mx-auto w-full max-w-3xl">
-        <Link href="/" className="text-sm font-semibold text-brand-blue">
+        <Link href="/" className="text-sm font-semibold text-brand-bronze">
           ← Voltar para o site
         </Link>
 
-        <h1 className="mt-6 text-3xl font-bold text-slate-900 sm:text-4xl">
+        <h1 className="mt-6 text-3xl font-bold text-brand-ink sm:text-4xl">
           Policy
         </h1>
-        <p className="mt-4 text-base leading-relaxed text-slate-600">
+        <p className="mt-4 text-base leading-relaxed text-brand-ink/65">
           Esta página descreve as diretrizes gerais de uso do site e o compromisso
-          da AMORIM SISTEMAS com práticas transparentes e responsáveis.
+          da Complexidade Simples com práticas transparentes e responsáveis.
         </p>
 
         <div className="mt-10 space-y-8">
           <section>
-            <h2 className="text-xl font-semibold text-slate-900">
+            <h2 className="text-xl font-semibold text-brand-ink">
               Condições de uso
             </h2>
             <p className="mt-3 leading-relaxed">
@@ -29,18 +29,18 @@ export default function PolicyPage() {
           </section>
 
           <section>
-            <h2 className="text-xl font-semibold text-slate-900">
+            <h2 className="text-xl font-semibold text-brand-ink">
               Propriedade intelectual
             </h2>
             <p className="mt-3 leading-relaxed">
               Marcas, textos e materiais apresentados são de propriedade da
-              AMORIM SISTEMAS, salvo indicação contrária. Não é permitido copiar
+              Complexidade Simples, salvo indicação contrária. Não é permitido copiar
               ou redistribuir sem autorização.
             </p>
           </section>
 
           <section>
-            <h2 className="text-xl font-semibold text-slate-900">
+            <h2 className="text-xl font-semibold text-brand-ink">
               Responsabilidade
             </h2>
             <p className="mt-3 leading-relaxed">

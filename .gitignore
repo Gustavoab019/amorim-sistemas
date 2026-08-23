@@ -20,3 +20,7 @@ pnpm-debug.log*
 
 # env files
 .env*
+!.env.example
+
+# artefacto do tsc --noEmit
+*.tsbuildinfo

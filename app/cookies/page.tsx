@@ -2,23 +2,23 @@ import Link from "next/link";
 
 export default function CookiesPage() {
   return (
-    <main className="bg-slate-50 px-6 pb-20 pt-28 text-slate-700 sm:pt-32">
+    <main className="bg-brand-ivory px-6 pb-20 pt-28 text-brand-ink/75 sm:pt-32">
       <div className="mx-auto w-full max-w-3xl">
-        <Link href="/" className="text-sm font-semibold text-brand-blue">
+        <Link href="/" className="text-sm font-semibold text-brand-bronze">
           ← Voltar para o site
         </Link>
 
-        <h1 className="mt-6 text-3xl font-bold text-slate-900 sm:text-4xl">
+        <h1 className="mt-6 text-3xl font-bold text-brand-ink sm:text-4xl">
           Cookies
         </h1>
-        <p className="mt-4 text-base leading-relaxed text-slate-600">
+        <p className="mt-4 text-base leading-relaxed text-brand-ink/65">
           Utilizamos cookies para melhorar a navegação, medir desempenho e
           entender como o site é utilizado.
         </p>
 
         <div className="mt-10 space-y-8">
           <section>
-            <h2 className="text-xl font-semibold text-slate-900">
+            <h2 className="text-xl font-semibold text-brand-ink">
               O que são cookies
             </h2>
             <p className="mt-3 leading-relaxed">
@@ -28,7 +28,7 @@ export default function CookiesPage() {
           </section>
 
           <section>
-            <h2 className="text-xl font-semibold text-slate-900">
+            <h2 className="text-xl font-semibold text-brand-ink">
               Tipos de cookies
             </h2>
             <p className="mt-3 leading-relaxed">
@@ -38,7 +38,7 @@ export default function CookiesPage() {
           </section>
 
           <section>
-            <h2 className="text-xl font-semibold text-slate-900">
+            <h2 className="text-xl font-semibold text-brand-ink">
               Controle pelo usuário
             </h2>
             <p className="mt-3 leading-relaxed">
