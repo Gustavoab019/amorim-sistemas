@@ -24,3 +24,4 @@ pnpm-debug.log*
 
 # artefacto do tsc --noEmit
 *.tsbuildinfo
+.vercel
