@@ -102,3 +102,97 @@ export function buildBusinessEntryHref(context?: string): string {
 
   return `https://wa.me/${WHATSAPP_BOT_NUMBER}?text=${encodeURIComponent(lines.join("\n"))}`;
 }
+
+/* ────────────────────────────────────────────────────────────────────────────
+ * Diagnóstico
+ *
+ * O questionário deixa de produzir apenas uma mensagem de WhatsApp e passa a
+ * produzir um documento com URL próprio. Quem responde fica com alguma coisa
+ * na mão antes de falar connosco — é o produto a demonstrar-se — e o registo
+ * dá-nos a primeira métrica de funil que alguma vez existiu.
+ *
+ * Guardado no TrustVerify, como tudo o resto. Sem CRM à parte.
+ * ──────────────────────────────────────────────────────────────────────────── */
+
+export interface DiagnosticAnswerPayload {
+  questionId: string;
+  questionLabel: string;
+  selected: string[];
+}
+
+export interface CreateDiagnosticPayload {
+  tierId: string;
+  tierTitle: string;
+  tierSummary?: string;
+  priceFromCents: number;
+  priceToCents: number;
+  timeline?: string;
+  includes?: string[];
+  answers: DiagnosticAnswerPayload[];
+}
+
+/**
+ * Regista o diagnóstico e devolve o id.
+ *
+ * `null` em qualquer falha, de propósito: sem empresa registada, sem rede, ou
+ * com o TrustVerify em baixo, o visitante tem de conseguir falar connosco na
+ * mesma. Quem consome cai para o link de WhatsApp sem documento.
+ */
+export async function createDiagnostic(
+  payload: CreateDiagnosticPayload
+): Promise<string | null> {
+  if (!TRUSTVERIFY_COMPANY_ID) return null;
+  try {
+    const res = await fetch(`${TRUSTVERIFY_URL}/api/v1/diagnostics`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ companyId: TRUSTVERIFY_COMPANY_ID, ...payload })
+    });
+    if (!res.ok) return null;
+    const data = (await res.json()) as { id?: string };
+    return data.id ?? null;
+  } catch {
+    return null;
+  }
+}
+
+export interface DiagnosticView {
+  id: string;
+  company: { id: string; name: string; slug: string };
+  tierTitle: string;
+  tierSummary?: string;
+  priceFromCents: number;
+  priceToCents: number;
+  currency: string;
+  timeline?: string;
+  includes: string[];
+  answers: Array<{ questionLabel: string; selected: string[] }>;
+  createdAt: string;
+}
+
+export async function fetchDiagnostic(id: string): Promise<DiagnosticView | null> {
+  try {
+    const res = await fetch(`${TRUSTVERIFY_URL}/api/v1/diagnostics/${id}`, {
+      next: { revalidate: 60 }
+    });
+    if (!res.ok) return null;
+    return (await res.json()) as DiagnosticView;
+  } catch {
+    return null;
+  }
+}
+
+/** URL do documento, para partilhar. */
+export const diagnosticUrl = (id: string) =>
+  `${process.env.NEXT_PUBLIC_SITE_URL ?? "https://complexidadesimples.com"}/diagnostico/${id}`;
+
+/** Deep link que leva empresa + diagnóstico, para o bot ligar os dois. */
+export function buildDiagnosticEntryHref(diagnosticId: string, context?: string): string {
+  const lines: string[] = [];
+  if (TRUSTVERIFY_COMPANY_ID) {
+    lines.push(`#empresa_${TRUSTVERIFY_COMPANY_ID}_${diagnosticId}`, "");
+  }
+  lines.push("Olá! Fiz o diagnóstico no site da *Complexidade Simples*.");
+  if (context) lines.push("", context);
+  return `https://wa.me/${WHATSAPP_BOT_NUMBER}?text=${encodeURIComponent(lines.join("\n"))}`;
+}

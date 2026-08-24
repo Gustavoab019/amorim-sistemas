@@ -2,6 +2,11 @@
 
 import { useMemo, useState } from "react";
 import {
+  buildDiagnosticEntryHref,
+  createDiagnostic,
+  diagnosticUrl
+} from "../lib/trustverify";
+import {
   buildWhatsAppHref,
   calculateDiagnosticResult,
   diagnosticQuestions,
@@ -14,10 +19,57 @@ const initialAnswers = diagnosticQuestions.reduce<DiagnosticAnswers>((answers, q
   return answers;
 }, {});
 
+type Emissao =
+  | { estado: "inicial" }
+  | { estado: "a-gerar" }
+  | { estado: "pronto"; id: string }
+  /** Sem documento, mas com caminho para falar connosco. Nunca um beco. */
+  | { estado: "sem-registo" };
+
 export function DiagnosticEngine() {
   const [answers, setAnswers] = useState<DiagnosticAnswers>(initialAnswers);
   const result = useMemo(() => calculateDiagnosticResult(answers), [answers]);
   const whatsappHref = useMemo(() => buildWhatsAppHref(result), [result]);
+  const [emissao, setEmissao] = useState<Emissao>({ estado: "inicial" });
+  const [copiado, setCopiado] = useState(false);
+
+  /**
+   * Gera o documento.
+   *
+   * O registo acontece aqui e não a cada resposta: enquanto a pessoa mexe nas
+   * opções ainda está a pensar, e guardar cada estado intermédio encheria a
+   * base de rascunhos que não são leads.
+   */
+  async function gerarDocumento() {
+    setEmissao({ estado: "a-gerar" });
+    const id = await createDiagnostic({
+      tierId: result.id,
+      tierTitle: result.title,
+      tierSummary: result.summary,
+      priceFromCents: Math.round(result.priceFrom * 100),
+      priceToCents: Math.round(result.priceTo * 100),
+      timeline: result.timeline,
+      includes: result.includes,
+      answers: diagnosticQuestions.map((q) => ({
+        questionId: q.id,
+        questionLabel: q.title,
+        selected: (answers[q.id] ?? []).map(
+          (optId) => q.options.find((o) => o.id === optId)?.label ?? optId
+        )
+      }))
+    });
+    setEmissao(id ? { estado: "pronto", id } : { estado: "sem-registo" });
+  }
+
+  async function copiarLink(id: string) {
+    try {
+      await navigator.clipboard.writeText(diagnosticUrl(id));
+      setCopiado(true);
+      setTimeout(() => setCopiado(false), 2000);
+    } catch {
+      // Sem clipboard (http, permissões) o link continua visível para copiar à mão.
+    }
+  }
 
   function toggleOption(questionId: string, optionId: string, multiple?: boolean) {
     setAnswers((current) => {
@@ -162,14 +214,84 @@ export function DiagnosticEngine() {
                 </p>
               </div>
 
-              <a
-                href={whatsappHref}
-                target="_blank"
-                rel="noreferrer"
-                className="block bg-brand-gold px-5 py-4 text-center text-sm font-semibold text-white transition hover:bg-brand-bronze"
-              >
-                Enviar diagnóstico pelo WhatsApp
-              </a>
+              {emissao.estado === "inicial" && (
+                <button
+                  type="button"
+                  onClick={gerarDocumento}
+                  className="block w-full bg-brand-gold px-5 py-4 text-center text-sm font-semibold text-white transition hover:bg-brand-bronze"
+                >
+                  Gerar o meu diagnóstico
+                </button>
+              )}
+
+              {emissao.estado === "a-gerar" && (
+                <div className="block w-full bg-brand-gold/60 px-5 py-4 text-center text-sm font-semibold text-white">
+                  A preparar…
+                </div>
+              )}
+
+              {emissao.estado === "pronto" && (
+                <div className="space-y-3">
+                  <div className="border border-brand-gold/40 bg-white/5 p-4">
+                    <p className="text-xs font-semibold uppercase text-brand-gold">
+                      O teu diagnóstico
+                    </p>
+                    <p className="mt-2 break-all font-mono text-xs leading-6 text-slate-300">
+                      {diagnosticUrl(emissao.id)}
+                    </p>
+                    <div className="mt-3 flex gap-2">
+                      <a
+                        href={`/diagnostico/${emissao.id}`}
+                        target="_blank"
+                        rel="noreferrer"
+                        className="flex-1 border border-white/20 px-3 py-2 text-center text-xs font-semibold text-white transition hover:bg-white/10"
+                      >
+                        Abrir
+                      </a>
+                      <button
+                        type="button"
+                        onClick={() => copiarLink(emissao.id)}
+                        className="flex-1 border border-white/20 px-3 py-2 text-center text-xs font-semibold text-white transition hover:bg-white/10"
+                      >
+                        {copiado ? "Copiado ✓" : "Copiar link"}
+                      </button>
+                    </div>
+                    <p className="mt-3 text-xs leading-6 text-slate-400">
+                      Guarda ou reencaminha. Fica disponível mesmo que não
+                      falemos hoje.
+                    </p>
+                  </div>
+
+                  <a
+                    href={buildDiagnosticEntryHref(
+                      emissao.id,
+                      `Resultado: ${result.title} · ${formatCurrency(result.priceFrom)} a ${formatCurrency(result.priceTo)}`
+                    )}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="block bg-brand-gold px-5 py-4 text-center text-sm font-semibold text-white transition hover:bg-brand-bronze"
+                  >
+                    Falar sobre isto no WhatsApp
+                  </a>
+                </div>
+              )}
+
+              {emissao.estado === "sem-registo" && (
+                <div className="space-y-3">
+                  <p className="border border-white/15 bg-white/5 p-4 text-xs leading-6 text-slate-300">
+                    Não consegui guardar o documento agora. A conversa funciona
+                    à mesma — o diagnóstico vai na mensagem.
+                  </p>
+                  <a
+                    href={whatsappHref}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="block bg-brand-gold px-5 py-4 text-center text-sm font-semibold text-white transition hover:bg-brand-bronze"
+                  >
+                    Enviar diagnóstico pelo WhatsApp
+                  </a>
+                </div>
+              )}
 
               <p className="text-xs leading-6 text-slate-500">
                 A faixa é uma estimativa para triagem. O valor final depende de
