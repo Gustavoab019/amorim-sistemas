@@ -21,17 +21,17 @@ const PROJECTS = [
   {
     name: "Habitta",
     href: "https://www.habitta.pt",
-    what: "Configurador, pagamentos e painel de encomendas"
+    what: "Construído do zero. Gerido por nós desde então."
   },
   {
     name: "TrustVerify",
     href: "https://www.trustverify.pt",
-    what: "Marketplace com verificação, agenda e repasse"
+    what: "Plataforma própria. É aqui que a nossa operação corre."
   },
   {
     name: "Dra. Lays Castilho",
     href: "https://www.dralayscastilho.com.br",
-    what: "Captação local, prova social e WhatsApp"
+    what: "Site e Instagram do zero. Geridos por nós desde então."
   }
 ];
 
@@ -58,12 +58,13 @@ export async function TrustVerifyProof() {
               Prova verificável
             </p>
             <h2 className="mt-4 text-4xl font-semibold leading-tight text-brand-ink sm:text-5xl">
-              A nossa própria operação corre no sistema que te vendemos.
+              Construímos do zero. E ficamos a gerir.
             </h2>
             <p className="mt-5 text-base leading-8 text-brand-ink/65">
-              Os teus pedidos entram, são geridos e pagos dentro do TrustVerify —
-              a mesma plataforma que construímos. Não é um argumento: é o
-              endereço onde podes ir confirmar.
+              Nenhum destes projectos foi entregue e abandonado — continuamos a
+              operá-los todos os dias. E a nossa própria operação corre no
+              TrustVerify, a plataforma que também construímos. Não é um
+              argumento: são três endereços onde podes ir confirmar.
             </p>
             <div className="mt-8 h-px w-28 bg-brand-gold" />
           </div>

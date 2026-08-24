@@ -7,33 +7,36 @@ import Footer from "./components/Footer";
 const CASES = [
   {
     name: "Dra. Lays",
+    meta: [["Base", "Next.js"], ["Canal", "WhatsApp"], ["Alcance", "Local"]],
     href: "https://www.dralayscastilho.com.br",
     category: "Captação local",
-    scope: "Landing, SEO local, prova social e WhatsApp.",
-    signal: "Para profissionais que precisam transformar intenção em agenda.",
+    scope: "Site e Instagram construídos do zero — e geridos por nós desde então.",
+    signal: "Para quem precisa de transformar procura local em agenda cheia.",
     logo: "/case-dralays-logo.png",
-    preview: "/case-dralays-preview.png",
-    features: ["SEO local", "WhatsApp", "Serviços", "Prova social"]
+    preview: "/case-dralays-preview.jpg",
+    features: ["SEO local", "WhatsApp", "Instagram", "Gestão contínua"]
   },
   {
     name: "Habitta",
+    meta: [["Base", "Next.js"], ["Pagamento", "Stripe"], ["Dados", "MongoDB"]],
     href: "https://www.habitta.pt",
     category: "Operação comercial",
-    scope: "Configurador, checkout, pagamentos, pedidos e painel.",
-    signal: "Para negócios que vendem sob medida e precisam controlar o fluxo.",
+    scope: "Marca e operação construídas do zero — e geridas por nós desde então.",
+    signal: "Para negócios que vendem sob medida e precisam de controlar o fluxo.",
     logo: "/case-habitta-logo.png",
     preview: "/case-habitta-preview.jpg",
-    features: ["Configurador", "Stripe", "Admin", "Pedidos"]
+    features: ["Configurador", "Stripe", "Painel", "Gestão contínua"]
   },
   {
     name: "TrustVerify",
+    meta: [["Base", "Next.js"], ["Pagamento", "Stripe"], ["Dados", "MongoDB"]],
     href: "https://www.trustverify.pt",
     category: "Plataforma",
-    scope: "Marketplace, perfis, verificação, dashboards e Stripe.",
-    signal: "Para modelos com clientes, profissionais, reputação e repasse.",
+    scope: "Plataforma própria: marketplace, verificação, pagamentos e painéis.",
+    signal: "É onde corre a nossa própria operação — e a de quem nos contrata.",
     logo: "/case-trustverify-logo.png",
-    preview: "/case-trustverify-preview.png",
-    features: ["Marketplace", "Perfis", "Pagamentos", "Dashboards"]
+    preview: "/case-trustverify-preview.jpg",
+    features: ["Marketplace", "Verificação", "Pagamentos", "Painéis"]
   }
 ];
 
@@ -292,17 +295,22 @@ export default function Home() {
               <div className="grid gap-6">
                 {CASES.map((item) => (
                   <article key={item.name} className="overflow-hidden border border-white/10 bg-white/[0.035] shadow-[0_24px_70px_rgba(0,0,0,0.18)]">
-                    <div className="grid md:grid-cols-[18rem_1fr]">
-                      <div className="relative min-h-64 border-b border-white/10 bg-white md:border-b-0 md:border-r">
+                    <div>
+                      <a
+                        href={item.href}
+                        target="_blank"
+                        rel="noreferrer"
+                        className="relative block aspect-[16/9] w-full overflow-hidden border-b border-white/10 bg-white"
+                      >
                         <Image
                           src={item.preview}
-                          alt={`Preview do projeto ${item.name}`}
+                          alt={`Página inicial de ${item.name}`}
                           fill
-                          sizes="(min-width: 768px) 18rem, 100vw"
-                          className="object-cover"
+                          sizes="(min-width: 1024px) 46rem, 100vw"
+                          className="object-cover object-top transition duration-500 hover:scale-[1.02]"
                         />
-                        <div className="absolute inset-0 bg-gradient-to-t from-brand-ink/45 via-transparent to-transparent" />
-                      </div>
+                        <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-brand-ink/35 via-transparent to-transparent" />
+                      </a>
                       <div className="p-7">
                         <div className="flex flex-wrap items-center justify-between gap-5">
                           <div>
@@ -353,11 +361,7 @@ export default function Home() {
                           Abrir {item.name} →
                         </a>
                         <div className="mt-6 grid grid-cols-3 gap-px bg-white/10">
-                          {[
-                            ["Base", "Next.js"],
-                            ["Dados", item.name === "Dra. Lays" ? "SEO" : "MongoDB"],
-                            ["Canal", item.name === "Dra. Lays" ? "WhatsApp" : "Stripe"]
-                          ].map(([label, value]) => (
+                          {item.meta.map(([label, value]) => (
                             <div key={label} className="bg-brand-ink/80 p-3">
                               <p className="text-[11px] uppercase text-slate-500">{label}</p>
                               <p className="mt-1 text-xs font-semibold text-slate-200">{value}</p>
