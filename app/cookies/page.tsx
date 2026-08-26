@@ -1,4 +1,18 @@
 import Link from "next/link";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Cookies",
+  description:
+    "Política de cookies da Complexidade Simples.",
+  robots: {
+    index: false,
+    follow: true
+  },
+  alternates: {
+    canonical: "/cookies"
+  }
+};
 
 export default function CookiesPage() {
   return (

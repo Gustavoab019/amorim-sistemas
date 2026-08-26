@@ -1,4 +1,18 @@
 import Link from "next/link";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Termos de Uso",
+  description:
+    "Termos de uso da Complexidade Simples.",
+  robots: {
+    index: false,
+    follow: true
+  },
+  alternates: {
+    canonical: "/policy"
+  }
+};
 
 export default function PolicyPage() {
   return (
@@ -9,7 +23,7 @@ export default function PolicyPage() {
         </Link>
 
         <h1 className="mt-6 text-3xl font-bold text-brand-ink sm:text-4xl">
-          Policy
+          Termos de Uso
         </h1>
         <p className="mt-4 text-base leading-relaxed text-brand-ink/65">
           Esta página descreve as diretrizes gerais de uso do site e o compromisso

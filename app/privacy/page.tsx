@@ -1,4 +1,18 @@
 import Link from "next/link";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Política de Privacidade",
+  description:
+    "Política de privacidade da Complexidade Simples.",
+  robots: {
+    index: false,
+    follow: true
+  },
+  alternates: {
+    canonical: "/privacy"
+  }
+};
 
 export default function PrivacyPage() {
   return (
@@ -9,7 +23,7 @@ export default function PrivacyPage() {
         </Link>
 
         <h1 className="mt-6 text-3xl font-bold text-brand-ink sm:text-4xl">
-          Privacy
+          Política de Privacidade
         </h1>
         <p className="mt-4 text-base leading-relaxed text-brand-ink/65">
           A Complexidade Simples respeita sua privacidade e utiliza dados apenas para

@@ -26,7 +26,8 @@ const NAV = [
   { label: "Diagnóstico", href: "/#diagnostico" },
   { label: "Como funciona", href: "/#como-funciona" },
   { label: "Casos reais", href: "/#casos" },
-  { label: "Prova", href: "/#prova" }
+  { label: "Prova", href: "/#prova" },
+  { label: "FAQ", href: "/#perguntas" }
 ];
 
 export default function Footer() {

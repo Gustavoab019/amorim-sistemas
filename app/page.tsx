@@ -3,6 +3,8 @@ import Header from "./components/Header";
 import { DiagnosticEngine } from "./components/DiagnosticEngine";
 import { TrustVerifyProof } from "./components/TrustVerifyProof";
 import Footer from "./components/Footer";
+import { StickyDiagnosticCta } from "./components/StickyDiagnosticCta";
+import { faqs, homeJsonLd, serializeJsonLd } from "./lib/seo";
 
 const CASES = [
   {
@@ -85,11 +87,17 @@ const FLOW_NODES = [
 export const revalidate = 900;
 
 export default function Home() {
+  const structuredData = homeJsonLd();
+
   return (
     <>
       <Header />
 
       <main>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: serializeJsonLd(structuredData) }}
+        />
         <section className="relative overflow-hidden bg-[#F8F4EC] px-6 pb-16 pt-16">
           <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(184,148,93,0.12)_1px,transparent_1px),linear-gradient(180deg,rgba(184,148,93,0.10)_1px,transparent_1px)] bg-[size:72px_72px] opacity-35" />
           <div className="absolute left-0 top-0 hidden h-full w-[42%] bg-[#FBFAF7] lg:block" />
@@ -117,13 +125,13 @@ export default function Home() {
               <p className="mt-8 text-xs font-semibold uppercase text-brand-bronze">
                 Sistemas que organizam. Soluções que libertam.
               </p>
-              <h1 className="mt-5 max-w-4xl text-5xl font-semibold leading-[1.02] text-brand-ink sm:text-6xl">
-                O site que começa vendendo o sistema certo.
+              <h1 className="mt-5 max-w-4xl text-[2.25rem] font-semibold leading-[1.08] text-brand-ink sm:text-5xl sm:leading-[1.02] lg:text-6xl">
+                Descobre que sistema o teu negócio precisa — e quanto custa.
               </h1>
-              <p className="mt-7 max-w-2xl text-lg leading-9 text-brand-ink/66">
-                Complexidade Simples é a matriz para transformar problemas
-                operacionais em sistemas vendáveis: captação, triagem, painel,
-                automação e plataforma.
+              <p className="mt-6 max-w-2xl text-base leading-8 text-brand-ink/66 sm:mt-7 sm:text-lg sm:leading-9">
+                A Complexidade Simples cria sistemas para empresas que precisam
+                sair do improviso: diagnóstico de demanda, gestão de leads,
+                automação de WhatsApp, painéis, pagamentos e plataformas.
               </p>
 
               <div className="mt-9 flex flex-col gap-3 sm:flex-row">
@@ -131,7 +139,7 @@ export default function Home() {
                   href="#diagnostico"
                   className="rounded-md bg-brand-ink px-6 py-4 text-center text-sm font-semibold text-white shadow-large transition hover:bg-brand-ink/90"
                 >
-                  Fazer diagnóstico
+                  Fazer o diagnóstico — 2 min
                 </a>
                 <a
                   href="#casos"
@@ -140,6 +148,11 @@ export default function Home() {
                   Ver sistemas reais
                 </a>
               </div>
+
+              <p className="mt-4 text-xs leading-6 text-brand-ink/45">
+                Sem conta, sem chamada. Recebes um documento com faixa de
+                investimento e prazo.
+              </p>
 
               <div className="mt-10 grid max-w-xl grid-cols-3 gap-px overflow-hidden border border-brand-gold/20 bg-brand-gold/20">
                 {[
@@ -413,6 +426,38 @@ export default function Home() {
           </div>
         </section>
 
+        <section id="perguntas" className="bg-white px-6 py-20 sm:py-28">
+          <div className="mx-auto max-w-6xl">
+            <div className="grid gap-12 lg:grid-cols-[0.82fr_1.18fr]">
+              <div>
+                <p className="text-xs font-semibold uppercase text-brand-bronze">
+                  Perguntas frequentes
+                </p>
+                <h2 className="mt-4 text-4xl font-semibold leading-tight text-brand-ink sm:text-5xl">
+                  Para quem chegou procurando site, sistema ou automação.
+                </h2>
+                <p className="mt-5 text-base leading-8 text-brand-ink/65">
+                  A diferença está no que acontece depois do clique: lead
+                  qualificado, histórico, status, pagamento e gestão.
+                </p>
+              </div>
+
+              <div className="divide-y divide-brand-gold/20 border-y border-brand-gold/20">
+                {faqs.map((item) => (
+                  <article key={item.question} className="py-6">
+                    <h3 className="text-xl font-semibold leading-8 text-brand-ink">
+                      {item.question}
+                    </h3>
+                    <p className="mt-3 text-sm leading-7 text-brand-ink/65">
+                      {item.answer}
+                    </p>
+                  </article>
+                ))}
+              </div>
+            </div>
+          </div>
+        </section>
+
         <section className="bg-[#FBFAF7] px-6 py-20 sm:py-24">
           <div className="mx-auto max-w-4xl text-center">
             <Image
@@ -440,6 +485,7 @@ export default function Home() {
       </main>
 
       <Footer />
+      <StickyDiagnosticCta />
     </>
   );
 }

@@ -1,4 +1,20 @@
 import Link from "next/link";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Contato",
+  description:
+    "Fale com a Complexidade Simples para diagnosticar sua operação e entender que tipo de sistema, automação ou painel faz sentido construir.",
+  alternates: {
+    canonical: "/contato"
+  },
+  openGraph: {
+    title: "Contato — Complexidade Simples",
+    description:
+      "Diagnóstico para sistemas sob medida, gestão de leads, automação de WhatsApp e painéis operacionais.",
+    url: "/contato"
+  }
+};
 
 const CONTACTS = [
   {
