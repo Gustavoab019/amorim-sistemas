@@ -8,7 +8,8 @@ const NAV_ITEMS = [
   { label: "Diagnóstico", href: "#diagnostico" },
   { label: "Como funciona", href: "#como-funciona" },
   { label: "Casos reais", href: "#casos" },
-  { label: "Oferta", href: "#oferta" }
+  { label: "Oferta", href: "#oferta" },
+  { label: "FAQ", href: "#perguntas" }
 ];
 
 
@@ -32,7 +33,7 @@ function MainBar({
   onToggleMenu: (value: boolean) => void;
 }) {
   return (
-    <div className="mx-auto flex h-[72px] max-w-6xl items-center justify-between px-6">
+    <div className="mx-auto flex h-[72px] max-w-6xl items-center justify-between gap-3 px-5 sm:px-6">
       <Logo />
       <DesktopNav />
       <DesktopActions />
@@ -43,7 +44,7 @@ function MainBar({
 
 function Logo() {
   return (
-    <Link href="/" className="flex items-center gap-3">
+    <Link href="/" className="flex min-w-0 flex-1 items-center gap-2.5 sm:flex-none sm:gap-3">
       <Image
         src="/complexidade-simples-logo.png"
         alt=""
@@ -52,8 +53,8 @@ function Logo() {
         priority
         className="h-8 w-auto object-contain"
       />
-      <span className="leading-tight">
-        <span className="block text-sm font-semibold uppercase text-brand-ink sm:text-base">
+      <span className="min-w-0 leading-tight">
+        <span className="block whitespace-nowrap text-[0.7rem] font-semibold uppercase leading-tight tracking-tight text-brand-ink sm:text-base sm:tracking-normal">
           Complexidade Simples
         </span>
         <span className="hidden text-xs font-medium text-brand-bronze sm:block">
@@ -104,10 +105,10 @@ function MobileActions({
   onToggleMenu: (value: boolean) => void;
 }) {
   return (
-    <div className="flex items-center gap-3 lg:hidden">
+    <div className="flex flex-none items-center gap-2 lg:hidden">
       <Link
         href="#diagnostico"
-        className="rounded-lg border border-brand-gold px-4 py-2 text-xs font-semibold text-brand-ink shadow-soft transition hover:bg-brand-gold hover:text-white"
+        className="whitespace-nowrap rounded-lg border border-brand-gold px-3 py-2 text-xs font-semibold text-brand-ink shadow-soft transition hover:bg-brand-gold hover:text-white"
       >
         Diagnóstico
       </Link>
