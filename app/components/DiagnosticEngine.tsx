@@ -6,6 +6,9 @@ import {
   createDiagnostic,
   diagnosticUrl
 } from "../lib/trustverify";
+import { buildInsights } from "../lib/insights";
+import { InsightNotes } from "./InsightNotes";
+import { DiagnosticContactForm } from "./DiagnosticContactForm";
 import {
   buildWhatsAppHref,
   calculateDiagnosticResult,
@@ -29,6 +32,7 @@ type Emissao =
 export function DiagnosticEngine() {
   const [answers, setAnswers] = useState<DiagnosticAnswers>(initialAnswers);
   const result = useMemo(() => calculateDiagnosticResult(answers), [answers]);
+  const insights = useMemo(() => buildInsights(answers), [answers]);
   const whatsappHref = useMemo(() => buildWhatsAppHref(result), [result]);
   const [emissao, setEmissao] = useState<Emissao>({ estado: "inicial" });
   const [copiado, setCopiado] = useState(false);
@@ -161,6 +165,13 @@ export function DiagnosticEngine() {
               </fieldset>
             ))}
           </div>
+
+          {/* As notas ficam por baixo das perguntas e não na coluna do
+              resultado: são leitura do que foi respondido, não parte da
+              estimativa. Misturá-las com o preço faria parecer justificação. */}
+          <div className="mt-10">
+            <InsightNotes insights={insights} />
+          </div>
         </div>
 
         <aside className="lg:sticky lg:top-28 lg:self-start">
@@ -273,6 +284,14 @@ export function DiagnosticEngine() {
                   >
                     Falar sobre isto no WhatsApp
                   </a>
+
+                  <div className="flex items-center gap-3 pt-1">
+                    <span className="h-px flex-1 bg-white/10" />
+                    <span className="text-[11px] uppercase text-slate-500">ou</span>
+                    <span className="h-px flex-1 bg-white/10" />
+                  </div>
+
+                  <DiagnosticContactForm diagnosticId={emissao.id} />
                 </div>
               )}
 

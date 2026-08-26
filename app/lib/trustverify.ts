@@ -67,6 +67,8 @@ export type NetworkStats = {
  * consome trata o `null` mostrando menos, nunca inventando.
  */
 export async function fetchNetworkStats(): Promise<NetworkStats | null> {
+  if (process.env.NEXT_PHASE === "phase-production-build") return null;
+
   try {
     const res = await fetch(`${TRUSTVERIFY_URL}/api/v1/network/stats`, {
       next: { revalidate: 900 }
@@ -195,4 +197,41 @@ export function buildDiagnosticEntryHref(diagnosticId: string, context?: string)
   lines.push("Olá! Fiz o diagnóstico no site da *Complexidade Simples*.");
   if (context) lines.push("", context);
   return `https://wa.me/${WHATSAPP_BOT_NUMBER}?text=${encodeURIComponent(lines.join("\n"))}`;
+}
+
+/**
+ * Deixa contacto num diagnóstico já criado.
+ *
+ * Mensagem de erro legível em vez de código: quem está a preencher um
+ * formulário não quer saber o que é um 429.
+ */
+export async function submitDiagnosticContact(
+  diagnosticId: string,
+  input: { name: string; email: string; phone?: string; note?: string }
+): Promise<{ ok: true; confirmationSent: boolean } | { ok: false; error: string }> {
+  try {
+    const res = await fetch(
+      `${TRUSTVERIFY_URL}/api/v1/diagnostics/${diagnosticId}/contact`,
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(input)
+      }
+    );
+    const data = (await res.json().catch(() => ({}))) as {
+      error?: string;
+      confirmationSent?: boolean;
+    };
+    if (res.ok) return { ok: true, confirmationSent: data.confirmationSent !== false };
+    return {
+      ok: false,
+      error:
+        data.error ??
+        (res.status === 429
+          ? "Demasiadas tentativas. Tenta daqui a pouco."
+          : "Não consegui guardar agora. Tenta outra vez.")
+    };
+  } catch {
+    return { ok: false, error: "Sem ligação. Verifica a internet e tenta outra vez." };
+  }
 }
