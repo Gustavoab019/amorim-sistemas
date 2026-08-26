@@ -54,7 +54,7 @@ function Logo() {
         className="h-8 w-auto object-contain"
       />
       <span className="min-w-0 leading-tight">
-        <span className="block whitespace-nowrap text-[0.7rem] font-semibold uppercase leading-tight tracking-tight text-brand-ink sm:text-base sm:tracking-normal">
+        <span className="block whitespace-nowrap text-[0.8125rem] font-semibold uppercase leading-tight text-brand-ink sm:text-base">
           Complexidade Simples
         </span>
         <span className="hidden text-xs font-medium text-brand-bronze sm:block">
@@ -106,12 +106,6 @@ function MobileActions({
 }) {
   return (
     <div className="flex flex-none items-center gap-2 lg:hidden">
-      <Link
-        href="#diagnostico"
-        className="whitespace-nowrap rounded-lg border border-brand-gold px-3 py-2 text-xs font-semibold text-brand-ink shadow-soft transition hover:bg-brand-gold hover:text-white"
-      >
-        Diagnóstico
-      </Link>
       <button
         type="button"
         className="inline-flex h-9 w-9 items-center justify-center rounded-lg border border-brand-gold/30 text-brand-ink transition hover:bg-brand-paper"
