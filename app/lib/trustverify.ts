@@ -30,6 +30,20 @@ export const WHATSAPP_BOT_NUMBER =
 export const TRUSTVERIFY_COMPANY_ID =
   process.env.NEXT_PUBLIC_TRUSTVERIFY_COMPANY_ID ?? "";
 
+/**
+ * _id do perfil profissional no TrustVerify (24 hex).
+ *
+ * Why um perfil de PROFISSIONAL e não a Company: o catálogo — serviços,
+ * preços e planos — está pendurado no perfil de quem executa. É lá que os
+ * preços se editam e é lá que a agenda vive. A Company continua a ser o que
+ * o selo e o `#empresa_` referem.
+ */
+export const TRUSTVERIFY_PRO_ID =
+  process.env.NEXT_PUBLIC_TRUSTVERIFY_PRO_ID ?? "69de03563b70e815da8af0a9";
+
+/** Perfil público do profissional — onde se compra e se marca. */
+export const proProfileUrl = () => `${TRUSTVERIFY_URL}/pro/${TRUSTVERIFY_PRO_ID}`;
+
 /** Slug do perfil público. */
 export const TRUSTVERIFY_COMPANY_SLUG =
   process.env.NEXT_PUBLIC_TRUSTVERIFY_COMPANY_SLUG ?? "complexidade-simples";
@@ -234,4 +248,105 @@ export async function submitDiagnosticContact(
   } catch {
     return { ok: false, error: "Sem ligação. Verifica a internet e tenta outra vez." };
   }
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Catálogo
+// ─────────────────────────────────────────────────────────────────────────────
+
+export type CatalogService = {
+  id: string;
+  name: string;
+  description?: string;
+  priceCents: number;
+  durationMinutes: number;
+  pricingMode: "fixed" | "from" | "on_request";
+  bookable: boolean;
+};
+
+export type CatalogOffer = {
+  id: string;
+  kind: "package" | "subscription";
+  name: string;
+  description?: string;
+  priceCents: number;
+  serviceName?: string;
+  creditCount?: number;
+  validityDays?: number;
+  creditsPerInterval?: number;
+  intervalMonths?: number;
+  unitPriceCents?: number;
+  savingCents?: number;
+};
+
+export type Catalog = {
+  professionalId: string;
+  name: string | null;
+  profileUrl: string;
+  services: CatalogService[];
+  offers: CatalogOffer[];
+};
+
+/**
+ * Serviços e planos, lidos do TrustVerify.
+ *
+ * Why não estão escritos aqui: estavam. A home tinha uma tabela de bandas de
+ * preço à mão que já não batia certo com o catálogo do perfil — dois preços
+ * públicos para o mesmo serviço, e nenhum processo para os manter iguais.
+ * Agora só existe um sítio onde um preço se muda, e é o mesmo sítio onde o
+ * cliente paga.
+ *
+ * Falha para `null` em silêncio, como o `fetchNetworkStats`: a secção
+ * desaparece e o resto da página vive. Melhor não mostrar preços do que
+ * mostrar preços que podem estar errados.
+ */
+export async function fetchCatalog(): Promise<Catalog | null> {
+  // Why: no build não há rede para o TrustVerify e a home é pré-renderizada.
+  // Sem esta guarda, o primeiro render de produção ficaria com o catálogo
+  // vazio até à primeira revalidação — e falharia silenciosamente.
+  if (process.env.NEXT_PHASE === "phase-production-build") return null;
+  if (!TRUSTVERIFY_PRO_ID) return null;
+
+  try {
+    const res = await fetch(
+      `${TRUSTVERIFY_URL}/api/professionals/${TRUSTVERIFY_PRO_ID}/catalog`,
+      { next: { revalidate: 900 } }
+    );
+    if (!res.ok) return null;
+    return (await res.json()) as Catalog;
+  } catch {
+    return null;
+  }
+}
+
+/**
+ * Preço em euros, no formato português. `180000` → `1.800 €`.
+ *
+ * Why `Intl` e não interpolação: sem separador de milhares saía `1800 €`, que
+ * numa tabela ao lado de `150 €` obriga o leitor a contar dígitos.
+ */
+export function formatPrice(cents: number): string {
+  const amount = cents / 100;
+  // Why `pt-BR` e não `pt-PT`: o CLDR pt-PT não agrupa 4 dígitos (`1800`) e,
+  // quando agrupa, usa espaço (`10 000`). O site inteiro escreve `1.800€`.
+  // O `pt-BR` dá exactamente essa convenção — ponto para milhares, vírgula
+  // para decimais — sem termos de reconstruir o número à mão.
+  const shown = new Intl.NumberFormat("pt-BR", {
+    useGrouping: "always",
+    minimumFractionDigits: 0,
+    maximumFractionDigits: Number.isInteger(amount) ? 0 : 2
+  }).format(amount);
+  return `${shown} €`;
+}
+
+/**
+ * Como o preço deve ser lido — o modo importa tanto como o número.
+ *
+ * `from` sem o "Desde" seria um preço fechado que não existe, e é a diferença
+ * entre uma expectativa cumprida e uma discussão no primeiro email.
+ */
+export function priceLabel(s: CatalogService): string {
+  if (s.pricingMode === "on_request") return "Sob consulta";
+  if (s.pricingMode === "from") return `Desde ${formatPrice(s.priceCents)}`;
+  return formatPrice(s.priceCents);
 }

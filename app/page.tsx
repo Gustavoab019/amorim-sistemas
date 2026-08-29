@@ -2,6 +2,7 @@ import Image from "next/image";
 import Header from "./components/Header";
 import { DiagnosticEngine } from "./components/DiagnosticEngine";
 import { TrustVerifyProof } from "./components/TrustVerifyProof";
+import { CatalogSection } from "./components/CatalogSection";
 import Footer from "./components/Footer";
 import { StickyDiagnosticCta } from "./components/StickyDiagnosticCta";
 import { faqs, homeJsonLd, serializeJsonLd } from "./lib/seo";
@@ -47,13 +48,6 @@ const SYSTEM_TYPES = [
   ["02", "Controle operacional", "Painel, pedidos, clientes, status, agenda e histórico."],
   ["03", "Automação", "Triagem, notificações, mensagens, regras e relatórios."],
   ["04", "Plataforma", "Perfis, permissões, pagamentos, reputação e múltiplos lados."]
-];
-
-const PRICE_BANDS = [
-  ["Captação", "350€ a 900€"],
-  ["Triagem", "900€ a 1.800€"],
-  ["Operação", "1.800€ a 5.000€"],
-  ["Plataforma", "5.000€ a 15.000€+"]
 ];
 
 const TRUST_LOGOS = [
@@ -213,7 +207,7 @@ export default function Home() {
                     <div className="border-t border-brand-gold/18 bg-brand-ink p-6 text-white md:border-l md:border-t-0">
                       <p className="text-xs uppercase text-brand-gold">Resultado provável</p>
                       <p className="mt-3 text-2xl font-semibold">Sistema operacional</p>
-                      <p className="mt-2 text-sm text-slate-400">1.800€ a 5.000€</p>
+                      <p className="mt-2 text-sm text-slate-400">Proposta após diagnóstico</p>
                     </div>
                   </div>
 
@@ -425,6 +419,8 @@ export default function Home() {
             </div>
           </div>
         </section>
+
+        <CatalogSection />
 
         <section id="perguntas" className="bg-white px-6 py-20 sm:py-28">
           <div className="mx-auto max-w-6xl">
