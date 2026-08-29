@@ -301,16 +301,22 @@ export type Catalog = {
  * mostrar preços que podem estar errados.
  */
 export async function fetchCatalog(): Promise<Catalog | null> {
-  // Why: no build não há rede para o TrustVerify e a home é pré-renderizada.
-  // Sem esta guarda, o primeiro render de produção ficaria com o catálogo
-  // vazio até à primeira revalidação — e falharia silenciosamente.
-  if (process.env.NEXT_PHASE === "phase-production-build") return null;
   if (!TRUSTVERIFY_PRO_ID) return null;
 
   try {
+    // Why este fetch corre TAMBÉM no build, ao contrário do
+    // `fetchNetworkStats`: aqui o destino é um endpoint HTTPS público, que o
+    // contentor de build alcança. A guarda `NEXT_PHASE` que estava aqui foi
+    // copiada de um caso diferente — o de não haver rede para a base de
+    // dados — e o que fazia era garantir que a primeira versão publicada
+    // saía sem preços, e só os ganhava até 15 minutos depois, com tráfego.
+    //
+    // O timeout existe porque agora isto é uma dependência do build: se o
+    // TrustVerify estiver a meio de um deploy, preferimos a página sem a
+    // secção a um build pendurado.
     const res = await fetch(
       `${TRUSTVERIFY_URL}/api/professionals/${TRUSTVERIFY_PRO_ID}/catalog`,
-      { next: { revalidate: 900 } }
+      { next: { revalidate: 900 }, signal: AbortSignal.timeout(8000) }
     );
     if (!res.ok) return null;
     return (await res.json()) as Catalog;
